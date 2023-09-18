@@ -1,40 +1,35 @@
 %{
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 %}
-
-%x HEX OCT BIN
 
 %%
 0[xX][0-9A-Fa-f]+ {
-    int decimal = (int)strtol(yytext, NULL, 16);
-    printf("%d", decimal);
+    printf("%d", (int)strtol(yytext, NULL, 16));
 }
 
 0[0-7]+ {
-    int decimal = (int)strtol(yytext, NULL, 8);
-    printf("%d", decimal);
+    printf("%d", (int)strtol(yytext, NULL, 8));
 }
 
 0b[01]+ {
-    int decimal = 0;
-    for (int i = 2; yytext[i] != '\0'; i++) {
-        decimal = decimal * 2 + (yytext[i] - '0');
-    }
+    char* binaryValue = yytext + 2;  // Пропускаем "0b"
+    int decimal = strtol(binaryValue, NULL, 2);
     printf("%d", decimal);
 }
 
 [1-9][0-9]* {
-    int decimal = atoi(yytext);
-    printf("%d", decimal);
+    printf("%d", atoi(yytext));
 }
 
 .|\n {
     printf("%s", yytext);
 }
-
 %%
+
+int yywrap() {
+    return 1;  // Возвращаем 1, чтобы сообщить, что анализ завершен
+}
 
 int main(int argc, char* argv[]) {
     if (argc != 2) {
