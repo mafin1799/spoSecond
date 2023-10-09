@@ -744,14 +744,21 @@ case 3:
 YY_RULE_SETUP
 #line 15 "convert.l"
 {
-    char* binaryValue = yytext + 2;  // Пропускаем "0b"
-    int decimal = strtol(binaryValue, NULL, 2);
+    char* binaryValue = yytext + 2;  // Пропускаем "0b" или "0B"
+    int decimal = 0;
+    int base = 1;
+    for (int i = strlen(binaryValue) - 1; i >= 0; i--) {
+        if (binaryValue[i] == '1') {
+            decimal += base;
+        }
+        base *= 2;
+    }
     printf("%d", decimal);
 }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 21 "convert.l"
+#line 28 "convert.l"
 {
     printf("%d", atoi(yytext));
 }
@@ -759,17 +766,17 @@ YY_RULE_SETUP
 case 5:
 /* rule 5 can match eol */
 YY_RULE_SETUP
-#line 25 "convert.l"
+#line 32 "convert.l"
 {
     printf("%s", yytext);
 }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 28 "convert.l"
+#line 35 "convert.l"
 ECHO;
 	YY_BREAK
-#line 773 "lex.yy.c"
+#line 780 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1774,7 +1781,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 28 "convert.l"
+#line 35 "convert.l"
 
 
 int yywrap() {

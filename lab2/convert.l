@@ -12,9 +12,16 @@
     printf("%d", (int)strtol(yytext, NULL, 8));
 }
 
-0b[01]+ {
-    char* binaryValue = yytext + 2;  // Пропускаем "0b"
-    int decimal = strtol(binaryValue, NULL, 2);
+"0b"[01]+ {
+    char* binaryValue = yytext + 2;  // Пропускаем "0b" или "0B"
+    int decimal = 0;
+    int base = 1;
+    for (int i = strlen(binaryValue) - 1; i >= 0; i--) {
+        if (binaryValue[i] == '1') {
+            decimal += base;
+        }
+        base *= 2;
+    }
     printf("%d", decimal);
 }
 
