@@ -75,13 +75,10 @@
 
 int yylex();
 
-double getFractionalPart(double num) {
-    double integralPart;
-    modf(num, &integralPart);
-    return num - integralPart;
-}
+double getFractionalPart(double num);
 
-#line 85 "y.tab.c"
+
+#line 82 "yacc.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -104,62 +101,7 @@ double getFractionalPart(double num) {
 #  endif
 # endif
 
-/* Use api.header.include to #include this header
-   instead of duplicating it here.  */
-#ifndef YY_YY_Y_TAB_H_INCLUDED
-# define YY_YY_Y_TAB_H_INCLUDED
-/* Debug traces.  */
-#ifndef YYDEBUG
-# define YYDEBUG 0
-#endif
-#if YYDEBUG
-extern int yydebug;
-#endif
-
-/* Token kinds.  */
-#ifndef YYTOKENTYPE
-# define YYTOKENTYPE
-  enum yytokentype
-  {
-    YYEMPTY = -2,
-    YYEOF = 0,                     /* "end of file"  */
-    YYerror = 256,                 /* error  */
-    YYUNDEF = 257,                 /* "invalid token"  */
-    NUMBER = 258                   /* NUMBER  */
-  };
-  typedef enum yytokentype yytoken_kind_t;
-#endif
-/* Token kinds.  */
-#define YYEMPTY -2
-#define YYEOF 0
-#define YYerror 256
-#define YYUNDEF 257
-#define NUMBER 258
-
-/* Value type.  */
-#if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-union YYSTYPE
-{
-#line 17 "yacc.y"
-
-    double num;
-
-#line 148 "y.tab.c"
-
-};
-typedef union YYSTYPE YYSTYPE;
-# define YYSTYPE_IS_TRIVIAL 1
-# define YYSTYPE_IS_DECLARED 1
-#endif
-
-
-extern YYSTYPE yylval;
-
-
-int yyparse (void);
-
-
-#endif /* !YY_YY_Y_TAB_H_INCLUDED  */
+#include "yacc.tab.h"
 /* Symbol kind.  */
 enum yysymbol_kind_t
 {
@@ -565,7 +507,7 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    27,    27,    28,    29,    30,    31,    32,    33,    34
+       0,    22,    22,    23,    24,    25,    26,    27,    28,    29
 };
 #endif
 
@@ -1132,55 +1074,55 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* res: expr '\n'  */
-#line 27 "yacc.y"
+#line 22 "yacc.y"
                { printf("\t %lf\n", (yyvsp[-1].num)); }
-#line 1138 "y.tab.c"
+#line 1080 "yacc.tab.c"
     break;
 
   case 3: /* expr: NUMBER  */
-#line 28 "yacc.y"
+#line 23 "yacc.y"
                         { (yyval.num)=(yyvsp[0].num); }
-#line 1144 "y.tab.c"
+#line 1086 "yacc.tab.c"
     break;
 
   case 4: /* expr: expr '+' expr  */
-#line 29 "yacc.y"
+#line 24 "yacc.y"
                         { (yyval.num)=(yyvsp[-2].num)+(yyvsp[0].num); }
-#line 1150 "y.tab.c"
+#line 1092 "yacc.tab.c"
     break;
 
   case 5: /* expr: expr '-' expr  */
-#line 30 "yacc.y"
+#line 25 "yacc.y"
                         { (yyval.num)=(yyvsp[-2].num)-(yyvsp[0].num); }
-#line 1156 "y.tab.c"
+#line 1098 "yacc.tab.c"
     break;
 
   case 6: /* expr: expr '*' expr  */
-#line 31 "yacc.y"
+#line 26 "yacc.y"
                         { (yyval.num)=(yyvsp[-2].num)*(yyvsp[0].num); }
-#line 1162 "y.tab.c"
+#line 1104 "yacc.tab.c"
     break;
 
   case 7: /* expr: expr '/' expr  */
-#line 32 "yacc.y"
+#line 27 "yacc.y"
                         { (yyval.num)=(yyvsp[-2].num)/(yyvsp[0].num); }
-#line 1168 "y.tab.c"
+#line 1110 "yacc.tab.c"
     break;
 
   case 8: /* expr: '{' expr '}'  */
-#line 33 "yacc.y"
+#line 28 "yacc.y"
                    { (yyval.num) = getFractionalPart((yyvsp[-1].num)); }
-#line 1174 "y.tab.c"
+#line 1116 "yacc.tab.c"
     break;
 
   case 9: /* expr: '(' expr ')'  */
-#line 34 "yacc.y"
+#line 29 "yacc.y"
                         { (yyval.num) = (yyvsp[-1].num); }
-#line 1180 "y.tab.c"
+#line 1122 "yacc.tab.c"
     break;
 
 
-#line 1184 "y.tab.c"
+#line 1126 "yacc.tab.c"
 
       default: break;
     }
@@ -1373,7 +1315,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 36 "yacc.y"
+#line 31 "yacc.y"
 
 
 int main(){
@@ -1384,5 +1326,11 @@ int main(){
 int yyerror(const char* msg){
 	fprintf(stderr,"%s\n",msg);
     return 0;
+}
+
+double getFractionalPart(double num) {
+    double integralPart;
+    modf(num, &integralPart);
+    return num - integralPart;
 }
 

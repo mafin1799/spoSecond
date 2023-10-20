@@ -5,14 +5,9 @@
 
 int yylex();
 
-double getFractionalPart(double num) {
-    double integralPart;
-    modf(num, &integralPart);
-    return num - integralPart;
-}
+double getFractionalPart(double num);
+
 %}
-
-
 
 %union {
     double num;
@@ -43,5 +38,11 @@ int main(){
 int yyerror(const char* msg){
 	fprintf(stderr,"%s\n",msg);
     return 0;
+}
+
+double getFractionalPart(double num) {
+    double integralPart;
+    modf(num, &integralPart);
+    return num - integralPart;
 }
 
